@@ -283,3 +283,7 @@ TSWLatexianTemp*
 
 *.Rhistory
 *.code-workspace
+
+# Exclude csv files
+*.csv
+*.png
