@@ -102,6 +102,7 @@ def main():
             print(f"Saved     {Hyper.tweet_saved_cnt} hydrated tweets.")
             # Now, since everything has been written. Reset start_index
             start_index = count
+            
     # There might be tweets unwritten in the last iteration if the count is not a multiple of num_tweets.
     # In that case, just write out the remainder of tweets.
     if count != start_index:
