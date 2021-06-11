@@ -1,6 +1,7 @@
 import os, re
 from csv import DictWriter
 from config import Hyper
+import ftfy
 
 class HydratedTweets:
     def __init__(self, hydrated_tweets):
@@ -32,7 +33,8 @@ class HydratedTweets:
                 continue
 
             if Hyper.UseUserLocation:
-                user_location = self.get_user_location(tweet)
+                is_folder = True
+                user_location = self.get_user_location(tweet, is_folder)
                 if len(user_location) > 0:
                     self.change_working_directory("user")
                     self.change_working_directory(user_location)
@@ -52,16 +54,16 @@ class HydratedTweets:
 
         os.chdir(folder)
 
-    def get_user_location(self, tweet):
+    def get_user_location(self, tweet, is_folder):
         user = tweet["user"]
         if user == None or len(user) == 0:
             return ""
 
-        user_location = user["location"]
+        user_location = self.get_string_json_data(user, "location")
         if user_location == None or len(user_location) == 0:
             return ""
-
-        user_location = user_location.replace(" ", "").replace(",", "_")
+        if is_folder:
+            user_location = user_location.replace(" ", "").replace(",", "_")
         return user_location
 
     def get_country(self, tweet):
@@ -69,19 +71,26 @@ class HydratedTweets:
         if place == None or len(place) == 0:
             return ""
 
-        country = place["country"]
+        country = self.get_string_json_data(place, "country")
         if country == None or len(country) == 0:
             return ""
 
         return country
 
+    def get_string_json_data(self, json, property):
+        if json[property] == None:
+            return ""
+
+        return ftfy.fix_text(json[property])    # ftfy library ensures the encoding works, see https://ftfy.readthedocs.io/en/latest/
+
     def output_file(self, tweet):
         field_names = ['Id', 'Language', 'User Location', 'Country', 'Full Text', 'Retweet Count', 'Favourite Count']
         id = tweet["id"]
-        language = tweet["lang"]
-        user_location = self.get_user_location(tweet) 
+        language = self.get_string_json_data(tweet, "lang")
+        is_folder = False
+        user_location = self.get_user_location(tweet, is_folder) 
         country = self.get_country(tweet)              
-        full_text = tweet["full_text"]
+        full_text = self.get_string_json_data(tweet, "full_text")
         retweet_count = tweet["retweet_count"]
         favorite_count = tweet["favorite_count"]
         row = {'Id':id, 'Language': language, 'User Location': user_location, 'Country': country, 'Full Text': full_text, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}

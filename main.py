@@ -17,13 +17,8 @@ def main():
     os.chdir(hyper.dirOutput)
     dirpath = os.getcwd()
     print("current directory is : " + dirpath)
-    
-    consumer_key = "JLuZDxu7NcuPnTno0qgztrsoZ"                                  #@param {type:"string"}
-    consumer_secret = "KL16xLRhvErmrMPOUvex3KbiGk3Ao9e0ziGhaDNq1y4tNuI9uW"      #@param {type:"string"}
-    access_token = "1253768165923880961-Yhct3tMh9LYpdrFkazJl1KqvDzOTg2"         #@param {type:"string"}
-    access_token_secret = "QpQykkfzvnVKg5pVyP0Kf3V1ZPAR30617XfoN3o43fDMu"       #@param {type:"string"}
 
-    t = Twarc(consumer_key, consumer_secret, access_token, access_token_secret)
+    t = Twarc(Hyper.consumer_key, Hyper.consumer_secret, Hyper.access_token, Hyper.access_token_secret)
 
     files = []
 
