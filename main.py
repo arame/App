@@ -7,6 +7,7 @@ import jsonlines, json, csv, sys
 from config import Hyper
 from hydratedTweets import HydratedTweets
 
+
 def main():
     hyper = Hyper()
     if not os.path.exists(hyper.dirOutput):

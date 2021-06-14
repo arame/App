@@ -9,7 +9,7 @@ class Hyper:
     access_token_secret = "QpQykkfzvnVKg5pVyP0Kf3V1ZPAR30617XfoN3o43fDMu"       #@param {type:"string"}
 
     def __init__(self) -> None:
-        self.dirOutput =  "../Summary_Details_files5"
+        self.dirOutput =  "../Summary_Details_files6"
         self.IsOutputCsv = True
         #@title Enter range of dates to Hydrate { run: "auto" }
         self.start_date = '2020-03-22' #@param {type:"date"}
@@ -17,7 +17,7 @@ class Hyper:
         #@title Check Keywords to Hydrate { run: "auto" }
         coronavirus = True #@param {type:"boolean"}
         virus = False #@param {type:"boolean"}
-        covid = False #@param {type:"boolean"}
+        covid = True #@param {type:"boolean"}
         ncov19 = False #@param {type:"boolean"}
         ncov2019 = False #@param {type:"boolean"}
         self.keyword_dict = {"coronavirus": coronavirus, "virus": virus, "covid": covid, "ncov19": ncov19, "ncov2019": ncov2019}

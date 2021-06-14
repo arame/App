@@ -2,6 +2,7 @@ import os, re
 from csv import DictWriter
 from config import Hyper
 import ftfy
+from data_cleaner import DataCleaner
 
 class HydratedTweets:
     def __init__(self, hydrated_tweets):
@@ -91,6 +92,8 @@ class HydratedTweets:
         user_location = self.get_user_location(tweet, is_folder) 
         country = self.get_country(tweet)              
         full_text = self.get_string_json_data(tweet, "full_text")
+        full_text = DataCleaner.lowercase_text(full_text)
+        full_text = DataCleaner.remove_noise(full_text)
         retweet_count = tweet["retweet_count"]
         favorite_count = tweet["favorite_count"]
         row = {'Id':id, 'Language': language, 'User Location': user_location, 'Country': country, 'Full Text': full_text, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
