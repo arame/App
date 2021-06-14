@@ -13,11 +13,11 @@ def main():
     if not os.path.exists(hyper.dirOutput):
         os.makedirs(hyper.dirOutput)
     else:
-        sys.exit("output directory already exists")
+        sys.exit(f"output directory already exists {hyper.dirOutput}")
         
     os.chdir(hyper.dirOutput)
     dirpath = os.getcwd()
-    print("current directory is : " + dirpath)
+    print(f"current directory is : {dirpath}")
 
     t = Twarc(Hyper.consumer_key, Hyper.consumer_secret, Hyper.access_token, Hyper.access_token_secret)
 

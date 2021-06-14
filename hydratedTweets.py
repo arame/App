@@ -3,6 +3,7 @@ from csv import DictWriter
 from config import Hyper
 import ftfy
 from data_cleaner import DataCleaner
+from tweet_translator import TweetTranslator
 
 class HydratedTweets:
     def __init__(self, hydrated_tweets):
@@ -15,7 +16,7 @@ class HydratedTweets:
         for tweet in self.hydrated_tweets:
             os.chdir(directory_path)
             language = tweet["lang"]
-            if len(language) == 0:
+            if len(language) == 0 or language == "und":
                 self.no_language_cnt += 1
                 continue
 
@@ -85,7 +86,7 @@ class HydratedTweets:
         return ftfy.fix_text(json[property])    # ftfy library ensures the encoding works, see https://ftfy.readthedocs.io/en/latest/
 
     def output_file(self, tweet):
-        field_names = ['Id', 'Language', 'User Location', 'Country', 'Full Text', 'Retweet Count', 'Favourite Count']
+        field_names = ['Id', 'Language', 'User Location', 'Country', 'Tweet', 'English Tweet', 'Retweet Count', 'Favourite Count']
         id = tweet["id"]
         language = self.get_string_json_data(tweet, "lang")
         is_folder = False
@@ -94,9 +95,13 @@ class HydratedTweets:
         full_text = self.get_string_json_data(tweet, "full_text")
         full_text = DataCleaner.lowercase_text(full_text)
         full_text = DataCleaner.remove_noise(full_text)
+        if language == "en":
+            full_text_en = full_text
+        else:
+            full_text_en = TweetTranslator.to_english(full_text, language)
         retweet_count = tweet["retweet_count"]
         favorite_count = tweet["favorite_count"]
-        row = {'Id':id, 'Language': language, 'User Location': user_location, 'Country': country, 'Full Text': full_text, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
+        row = {'Id':id, 'Language': language, 'User Location': user_location, 'Country': country, 'Tweet': full_text, 'English Tweet': full_text_en, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
         self.append_dict_as_row(row, field_names)
 
     def append_dict_as_row(self, row, field_names):
