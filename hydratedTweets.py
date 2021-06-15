@@ -4,6 +4,7 @@ from config import Hyper
 import ftfy
 from data_cleaner import DataCleaner
 from tweet_translator import TweetTranslator
+from user_location import UserLocation
 
 class HydratedTweets:
     def __init__(self, hydrated_tweets):
@@ -26,7 +27,7 @@ class HydratedTweets:
                 continue            
 
             self.change_working_directory(language)
-            country = self.get_country(tweet)
+            country = self.get_country_from_place(tweet)
             if len(country) > 0:
                 self.change_working_directory("country")
                 self.change_working_directory(country)
@@ -35,12 +36,15 @@ class HydratedTweets:
                 continue
 
             if Hyper.UseUserLocation:
-                is_folder = True
-                user_location = self.get_user_location(tweet, is_folder)
-                if len(user_location) > 0:
+                _, country = self.get_user_location(tweet)
+                if country == None:
+                    continue
+
+                if len(country) > 0:
                     self.change_working_directory("user")
-                    self.change_working_directory(user_location)
+                    self.change_working_directory(country)
                     self.output_file(tweet)
+                    self.tweet_saved_cnt += 1
                     continue
    
         # Return to root directory
@@ -56,19 +60,22 @@ class HydratedTweets:
 
         os.chdir(folder)
 
-    def get_user_location(self, tweet, is_folder):
+    
+    def get_user_location(self, tweet):
         user = tweet["user"]
         if user == None or len(user) == 0:
-            return ""
+            return "", ""
 
+        country = ""
         user_location = self.get_string_json_data(user, "location")
         if user_location == None or len(user_location) == 0:
-            return ""
-        if is_folder:
-            user_location = user_location.replace(" ", "").replace(",", "_")
-        return user_location
+            return "", ""
 
-    def get_country(self, tweet):
+        ul = UserLocation()
+        country = ul.locator(user_location)
+        return user_location, country
+
+    def get_country_from_place(self, tweet):
         place = tweet["place"]
         if place == None or len(place) == 0:
             return ""
@@ -89,9 +96,11 @@ class HydratedTweets:
         field_names = ['Id', 'Language', 'User Location', 'Country', 'Tweet', 'English Tweet', 'Retweet Count', 'Favourite Count']
         id = tweet["id"]
         language = self.get_string_json_data(tweet, "lang")
-        is_folder = False
-        user_location = self.get_user_location(tweet, is_folder) 
-        country = self.get_country(tweet)              
+        country = self.get_country_from_place(tweet)
+        user_location, user_country = self.get_user_location(tweet) 
+        if len(country) == 0:
+            country = user_country
+
         full_text = self.get_string_json_data(tweet, "full_text")
         full_text = DataCleaner.lowercase_text(full_text)
         full_text = DataCleaner.remove_noise(full_text)

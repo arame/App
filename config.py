@@ -1,6 +1,8 @@
 
 class Hyper:
-    UseUserLocation = False
+    UseUserLocation = True
+    MustTranslate = False
+    UserLocationFile = "D:/363/Lookup/UserLocations.csv"
     no_language_cnt = 0
     tweet_saved_cnt = 0
     consumer_key = "JLuZDxu7NcuPnTno0qgztrsoZ"                                  #@param {type:"string"}
@@ -9,7 +11,7 @@ class Hyper:
     access_token_secret = "QpQykkfzvnVKg5pVyP0Kf3V1ZPAR30617XfoN3o43fDMu"       #@param {type:"string"}
 
     def __init__(self) -> None:
-        self.dirOutput =  "../Summary_Details_files6"
+        self.dirOutput =  "../Summary_Details_files8"
         self.IsOutputCsv = True
         #@title Enter range of dates to Hydrate { run: "auto" }
         self.start_date = '2020-03-22' #@param {type:"date"}
