@@ -1,7 +1,8 @@
 from geopy.geocoders import Nominatim
 from tqdm import tqdm
-import csv
+import csv, os, re
 from csv import writer
+from csv import DictWriter
 from config import Hyper
 
 class UserLocation:
@@ -52,3 +53,31 @@ class UserLocation:
 
         except:
             return ""
+
+    def save_to_country_file(self, dir, row):
+        directory_path = os.getcwd()
+        self.change_working_directory(dir)
+        self.append_dict_as_row(row)
+        os.chdir(directory_path) 
+
+    def append_dict_as_row(self, row):
+        output_file = Hyper.HyrdatedTweetFile
+        if os.path.exists(output_file):
+            # Open file in append mode
+            with open(output_file, 'a+', encoding="utf-8", newline='') as write_obj:
+                dict_writer = DictWriter(write_obj, fieldnames=Hyper.field_names)
+                dict_writer.writerow(row)
+                return
+
+        with open(output_file, 'w', encoding="utf-8", newline='') as write_obj:
+            dict_writer = DictWriter(write_obj, fieldnames=Hyper.field_names)
+            dict_writer.writeheader()
+            dict_writer.writerow(row)
+
+
+    def change_working_directory(self, folder):
+        # Replace invalid characters for folder name with underbar.
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
+        os.chdir(folder)

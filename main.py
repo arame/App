@@ -1,5 +1,4 @@
 import datetime as dt
-#import wget
 import os
 import pandas as pd 
 from twarc import Twarc

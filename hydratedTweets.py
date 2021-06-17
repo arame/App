@@ -37,7 +37,6 @@ class HydratedTweets:
                 self.tweet_saved_cnt += 1
                 continue
 
-            self.change_working_directory("no_country")
             # This code slows the execution of this data load
             # Instead of running this code here, use a seperate process
             if Hyper.UseUserLocation:
@@ -46,12 +45,18 @@ class HydratedTweets:
                     continue
 
                 if len(country) > 0:
-                    self.change_working_directory("user")
                     self.change_working_directory(country)
                     self.output_file(tweet)
                     self.tweet_saved_cnt += 1
                     continue
    
+            user_location, _ = self.get_user_location(tweet)
+            if len(user_location) > 0:
+                self.change_working_directory("no_country")
+                self.output_file(tweet)
+                self.tweet_saved_cnt += 1
+                continue
+            
         # Return to root directory
         os.chdir(directory_path) 
         Hyper.no_language_cnt += self.no_language_cnt
@@ -102,7 +107,6 @@ class HydratedTweets:
         return ftfy.fix_text(json[property])    # ftfy library ensures the encoding works, see https://ftfy.readthedocs.io/en/latest/
 
     def output_file(self, tweet):
-        field_names = ['Id', 'Language', 'User Location', 'Country', 'Tweet', 'English Tweet', 'Retweet Count', 'Favourite Count']
         id = tweet["id"]
         language = self.get_string_json_data(tweet, "lang")
         country = self.get_country_from_place(tweet)
@@ -113,6 +117,7 @@ class HydratedTweets:
         full_text = self.get_string_json_data(tweet, "full_text")
         full_text = DataCleaner.lowercase_text(full_text)
         full_text = DataCleaner.remove_noise(full_text)
+        full_text_en = ""
         if language == "en":
             full_text_en = full_text
         
@@ -123,18 +128,18 @@ class HydratedTweets:
         retweet_count = tweet["retweet_count"]
         favorite_count = tweet["favorite_count"]
         row = {'Id':id, 'Language': language, 'User Location': user_location, 'Country': country, 'Tweet': full_text, 'English Tweet': full_text_en, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
-        self.append_dict_as_row(row, field_names)
+        self.append_dict_as_row(row)
 
-    def append_dict_as_row(self, row, field_names):
-        output_file = "tweets.csv"
+    def append_dict_as_row(self, row):
+        output_file = Hyper.HyrdatedTweetFile
         if os.path.exists(output_file):
             # Open file in append mode
             with open(output_file, 'a+', encoding="utf-8", newline='') as write_obj:
-                dict_writer = DictWriter(write_obj, fieldnames=field_names)
+                dict_writer = DictWriter(write_obj, fieldnames=Hyper.field_names)
                 dict_writer.writerow(row)
                 return
 
         with open(output_file, 'w', encoding="utf-8", newline='') as write_obj:
-            dict_writer = DictWriter(write_obj, fieldnames=field_names)
+            dict_writer = DictWriter(write_obj, fieldnames=Hyper.field_names)
             dict_writer.writeheader()
             dict_writer.writerow(row)

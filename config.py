@@ -1,14 +1,18 @@
 
 class Hyper:
-    UseUserLocation = True
+    UseUserLocation = False
     MustTranslate = False
     UserLocationFile = "D:/363/Lookup/UserLocations.csv"
+    HyrdatedTweetDir = "D:/363/Summary_Details_files10/en/no_country"
+    HyrdatedTweetLangDir = "D:/363/Summary_Details_files10/en"
+    HyrdatedTweetFile = "tweets.csv"
     no_language_cnt = 0
     tweet_saved_cnt = 0
     consumer_key = "JLuZDxu7NcuPnTno0qgztrsoZ"                                  #@param {type:"string"}
     consumer_secret = "KL16xLRhvErmrMPOUvex3KbiGk3Ao9e0ziGhaDNq1y4tNuI9uW"      #@param {type:"string"}
     access_token = "1253768165923880961-Yhct3tMh9LYpdrFkazJl1KqvDzOTg2"         #@param {type:"string"}
     access_token_secret = "QpQykkfzvnVKg5pVyP0Kf3V1ZPAR30617XfoN3o43fDMu"       #@param {type:"string"}
+    field_names = ['Id', 'Language', 'User Location', 'Country', 'Tweet', 'English Tweet', 'Retweet Count', 'Favourite Count']
 
     def __init__(self) -> None:
         self.dirOutput =  "../Summary_Details_files10"
