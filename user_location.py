@@ -1,4 +1,3 @@
-import re
 from geopy.geocoders import Nominatim
 from tqdm import tqdm
 import csv
@@ -10,7 +9,7 @@ class UserLocation:
         # initialize geolocator
         self.geolocator = Nominatim(user_agent='Tweet_locator')
         self.user_locations ={}
-        reader = csv.reader(open(Hyper.UserLocationFile))
+        reader = csv.reader(open(Hyper.UserLocationFile, encoding='utf-8', errors="ignore"))
         for row in reader:
             key = row[0]
             self.user_locations[key] = row[1]

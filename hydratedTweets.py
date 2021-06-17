@@ -5,6 +5,7 @@ import ftfy
 from data_cleaner import DataCleaner
 from tweet_translator import TweetTranslator
 from user_location import UserLocation
+from country import Country
 
 class HydratedTweets:
     def __init__(self, hydrated_tweets):
@@ -29,12 +30,16 @@ class HydratedTweets:
             self.change_working_directory(language)
             country = self.get_country_from_place(tweet)
             if len(country) > 0:
-                self.change_working_directory("country")
+                c = Country()
+                c.save(country)
                 self.change_working_directory(country)
                 self.output_file(tweet)
                 self.tweet_saved_cnt += 1
                 continue
 
+            self.change_working_directory("no_country")
+            # This code slows the execution of this data load
+            # Instead of running this code here, use a seperate process
             if Hyper.UseUserLocation:
                 _, country = self.get_user_location(tweet)
                 if country == None:
@@ -71,8 +76,12 @@ class HydratedTweets:
         if user_location == None or len(user_location) == 0:
             return "", ""
 
-        ul = UserLocation()
-        country = ul.locator(user_location)
+        user_location = DataCleaner.remove_noise(user_location)
+        country = ""
+        if Hyper.UseUserLocation:
+            ul = UserLocation()
+            country = ul.locator(user_location)
+
         return user_location, country
 
     def get_country_from_place(self, tweet):
@@ -97,17 +106,20 @@ class HydratedTweets:
         id = tweet["id"]
         language = self.get_string_json_data(tweet, "lang")
         country = self.get_country_from_place(tweet)
-        user_location, user_country = self.get_user_location(tweet) 
-        if len(country) == 0:
-            country = user_country
+        user_location, _ = self.get_user_location(tweet) 
+        """ if len(country) == 0:
+            country = user_country """
 
         full_text = self.get_string_json_data(tweet, "full_text")
         full_text = DataCleaner.lowercase_text(full_text)
         full_text = DataCleaner.remove_noise(full_text)
         if language == "en":
             full_text_en = full_text
-        else:
+        
+        # Remove tweet translations from here. The process is too unreliable and should be run seperately
+        """ else:
             full_text_en = TweetTranslator.to_english(full_text, language)
+             """
         retweet_count = tweet["retweet_count"]
         favorite_count = tweet["favorite_count"]
         row = {'Id':id, 'Language': language, 'User Location': user_location, 'Country': country, 'Tweet': full_text, 'English Tweet': full_text_en, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
