@@ -2,7 +2,7 @@ from country import Country
 
 def main():
     c = Country()
-    c.save("United States")
+    c.save("People's Republic of China")
 
 
 if __name__ == "__main__":

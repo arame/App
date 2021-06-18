@@ -15,10 +15,11 @@ class Country:
 
 
     def save(self, country):
-        if country in self.saved_countries:
+        country_clean = DataCleaner.remove_noise(country)
+        if country_clean in self.saved_countries:
             return
 
-        self.saved_countries.append(country)
+        self.saved_countries.append(country_clean)
         country_1 = self.geo_locator(country)
         with open(Hyper.UserLocationFile, 'a+', newline='') as write_obj:
             # Create a writer object from csv module

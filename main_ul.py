@@ -12,9 +12,10 @@ def main():
         for row in reader:
             i += 1
             output_row(ul, row)
-            if i % 1000 == 0:
+            if i % 100 == 0:
                 print(f"{i} rows processed")
 
+    print(f"")
 
 def output_row(ul, row):
     user_location = row["User Location"]
