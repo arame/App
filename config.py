@@ -3,8 +3,8 @@ class Hyper:
     UseUserLocation = False
     MustTranslate = False
     UserLocationFile = "D:/363/Lookup/UserLocations.csv"
-    HyrdatedTweetDir = "D:/363/Summary_Details_files10/en/no_country"
-    HyrdatedTweetLangDir = "D:/363/Summary_Details_files10/en"
+    HyrdatedTweetDir = "D:/363/Summary_Details_files11/en/no_country"
+    HyrdatedTweetLangDir = "D:/363/Summary_Details_files11/en"
     HyrdatedTweetFile = "tweets.csv"
     no_language_cnt = 0
     tweet_saved_cnt = 0
@@ -15,7 +15,7 @@ class Hyper:
     field_names = ['Id', 'Language', 'User Location', 'Country', 'Tweet', 'English Tweet', 'Retweet Count', 'Favourite Count']
 
     def __init__(self) -> None:
-        self.dirOutput =  "../Summary_Details_files10"
+        self.dirOutput =  "../Summary_Details_files11"
         self.IsOutputCsv = True
         #@title Enter range of dates to Hydrate { run: "auto" }
         self.start_date = '2020-03-22' #@param {type:"date"}
