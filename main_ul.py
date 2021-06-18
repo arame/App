@@ -1,21 +1,27 @@
 import csv, os
 from config import Hyper
 from user_location import UserLocation
+import time
 
 def main():
+    _time = time.strftime('%Y/%m/%d %H:%M:%S')
+    print(f"{_time}     ** Started")
     file = os.path.join(Hyper.HyrdatedTweetDir, Hyper.HyrdatedTweetFile)
     i = 0
     ul = UserLocation()
     with open(file, encoding="utf-8", newline='') as csvfile:
-        print(f"{file} opened")
+        _time = time.strftime('%Y/%m/%d %H:%M:%S')
+        print(f"{_time}     {file} opened")
         reader = csv.DictReader(csvfile)
         for row in reader:
             i += 1
             output_row(ul, row)
             if i % 100 == 0:
-                print(f"{i} rows processed")
+                _time = time.strftime('%Y/%m/%d %H:%M:%S')
+                print(f"{_time}     {i} rows processed")
 
-    print(f"")
+    _time = time.strftime('%Y/%m/%d %H:%M:%S')
+    print(f"{_time}     ** Ended")
 
 def output_row(ul, row):
     user_location = row["User Location"]

@@ -5,6 +5,7 @@ from twarc import Twarc
 import jsonlines, json, csv, sys
 from config import Hyper
 from hydratedTweets import HydratedTweets
+import time
 
 
 def main():
@@ -16,7 +17,8 @@ def main():
         
     os.chdir(hyper.dirOutput)
     dirpath = os.getcwd()
-    print(f"current directory is : {dirpath}")
+    start_time = time.strftime('%Y/%m/%d %H:%M:%S')
+    print(f"{start_time} Current directory is : {dirpath}")
 
     t = Twarc(Hyper.consumer_key, Hyper.consumer_secret, Hyper.access_token, Hyper.access_token_secret)
 
@@ -49,7 +51,8 @@ def main():
             for i in f.readline().strip('][').replace(" ", "").split(","):
                 ids.add(i) 
     # Number of tweets read.
-    print(round((len(ids)/1000000), 3), "million unique tweets.")
+    _time = time.strftime('%Y/%m/%d %H:%M:%S')
+    print(f"{_time}   {round((len(ids)/1000000), 3)} million unique tweets.")
 
     #@title Enter ID output file {run: "auto"}
     final_tweet_ids_filename = "final_ids.txt" #@param {type: "string"}
@@ -93,8 +96,9 @@ def main():
         if (count % num_save) == 0:
             tweets = HydratedTweets(hydrated_tweets[start_index:])
             tweets.output_to_csv()
-            print(f"Processed {count} hydrated tweets.")
-            print(f"Saved     {Hyper.tweet_saved_cnt} hydrated tweets.")
+            _time = time.strftime('%Y/%m/%d %H:%M:%S')
+            print(f"{_time}   Processed {count} hydrated tweets.")
+            print(f"{_time}   Saved     {Hyper.tweet_saved_cnt} hydrated tweets.")
             # Now, since everything has been written. Reset start_index
             start_index = count
             
@@ -104,10 +108,12 @@ def main():
         print("Here with start_index", start_index)
         tweets = HydratedTweets(hydrated_tweets[start_index:])
         tweets.output_to_csv()
-        print(f"Processed {count} hydrated tweets.")
-        print(f"Saved     {Hyper.tweet_saved_cnt} hydrated tweets.")
+        _time = time.strftime('%Y/%m/%d %H:%M:%S')
+        print(f"{_time}   Processed {count} hydrated tweets.")
+        print(f"{_time}   Saved     {Hyper.tweet_saved_cnt} hydrated tweets.")
 
-    print("** Completed output **")
+    _time = time.strftime('%Y/%m/%d %H:%M:%S')
+    print(f"{_time}   ** Completed output **")
 
 if __name__ == "__main__":
     main()
