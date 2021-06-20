@@ -16,9 +16,14 @@ def main():
     stopwords.update(["coronavirus", "covid", "time", "today", "know", "support", "update", "say", "take", "please", "need", "well", "think", "virus", "thank", "read", "new", "going", "read", "help", "people", "let", "will", "one", "said", "due", "see", "day", "via", "make", "call", "really", "every", "great", "still", "keep", "now", "im", "case", "patient", "everyone", "many", "corona", "says", "go", "even", "week", "dont", "outbreak", "first", "cant", "way", "good", "work", "spread", "live", "right", "come", "back", "news", "stop", "number", "want", "may", "home", "country", "hope", "got", "US", "pandemic", "crisis", "cases", "stay", "thing", "amid", "look"])
     dirs = os.listdir(Hyper.HyrdatedTweetLangEnDir)
     for countrydir in dirs:
-        print (f"{get_time()}     Generate wordcloud for country {countrydir}")
         countryfile = path.join(Hyper.HyrdatedTweetLangEnDir, countrydir, Hyper.HyrdatedTweetFile)
-        wordcloudfig = f"wordcloud_{countrydir}.png"
+        file_size = os.path.getsize(countryfile)
+        if file_size < 100000:
+            continue
+
+        print (f"{get_time()}     Generate wordcloud for country {countrydir}")
+        filename = f"wordcloud_{countrydir}.png"
+        wordcloudfig = path.join(Hyper.WordcloudDir, filename)
         output_wordcloud(countryfile, wordcloudfig, stopwords)
         print(f"{get_time()}     Wordcloud output for country {countrydir}")
     

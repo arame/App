@@ -2,6 +2,7 @@
 class Hyper:
     UseUserLocation = False
     MustTranslate = False
+    WordcloudDir = "D:/363/wordcloud"
     UserLocationFile = "D:/363/Lookup/UserLocations.csv"
     HyrdatedTweetDirNoCountry = "D:/363/Summary_Details_files11/en/no_country"
     HyrdatedTweetLangEnDir = "D:/363/Summary_Details_files11/en"
