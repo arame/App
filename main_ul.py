@@ -6,7 +6,7 @@ import time
 def main():
     _time = time.strftime('%Y/%m/%d %H:%M:%S')
     print(f"{_time}     ** Started")
-    file = os.path.join(Hyper.HyrdatedTweetDir, Hyper.HyrdatedTweetFile)
+    file = os.path.join(Hyper.HyrdatedTweetDirNoCountry, Hyper.HyrdatedTweetFile)
     i = 0
     ul = UserLocation()
     with open(file, encoding="utf-8", newline='') as csvfile:
@@ -30,7 +30,7 @@ def output_row(ul, row):
         return  # Ignore, no country to save
 
     row["Country"] = country
-    save_dir = os.path.join(Hyper.HyrdatedTweetLangDir, country)
+    save_dir = os.path.join(Hyper.HyrdatedTweetLangEnDir, country)
     ul.save_to_country_file(save_dir, row)
 
             

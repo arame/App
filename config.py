@@ -3,8 +3,9 @@ class Hyper:
     UseUserLocation = False
     MustTranslate = False
     UserLocationFile = "D:/363/Lookup/UserLocations.csv"
-    HyrdatedTweetDir = "D:/363/Summary_Details_files11/en/no_country"
-    HyrdatedTweetLangDir = "D:/363/Summary_Details_files11/en"
+    HyrdatedTweetDirNoCountry = "D:/363/Summary_Details_files11/en/no_country"
+    HyrdatedTweetLangEnDir = "D:/363/Summary_Details_files11/en"
+    HyrdatedTweetDir = "D:/363/Summary_Details_files11"
     HyrdatedTweetFile = "tweets.csv"
     no_language_cnt = 0
     tweet_saved_cnt = 0
