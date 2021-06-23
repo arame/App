@@ -1,4 +1,4 @@
-
+import os
 class Hyper:
     UseUserLocation = False
     MustTranslate = False
@@ -10,10 +10,11 @@ class Hyper:
     HyrdatedTweetFile = "tweets.csv"
     no_language_cnt = 0
     tweet_saved_cnt = 0
-    consumer_key = "JLuZDxu7NcuPnTno0qgztrsoZ"                                  #@param {type:"string"}
-    consumer_secret = "KL16xLRhvErmrMPOUvex3KbiGk3Ao9e0ziGhaDNq1y4tNuI9uW"      #@param {type:"string"}
-    access_token = "1253768165923880961-Yhct3tMh9LYpdrFkazJl1KqvDzOTg2"         #@param {type:"string"}
-    access_token_secret = "QpQykkfzvnVKg5pVyP0Kf3V1ZPAR30617XfoN3o43fDMu"       #@param {type:"string"}
+    # Keys, access tokens and secrets taken from Twitter are stored as environment variables
+    consumer_key = os.environ['CONSUMER_KEY']
+    consumer_secret = os.environ['CONSUMER_SECRET']
+    access_token = os.environ['ACCESS_TOKEN']
+    access_token_secret = os.environ['ACCESS_TOKEN_SECRET']
     field_names = ['Id', 'Language', 'User Location', 'Country', 'Tweet', 'English Tweet', 'Retweet Count', 'Favourite Count']
 
     def __init__(self) -> None:

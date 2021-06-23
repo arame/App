@@ -19,8 +19,11 @@ def main():
     dirpath = os.getcwd()
     start_time = time.strftime('%Y/%m/%d %H:%M:%S')
     print(f"{start_time} Current directory is : {dirpath}")
-
-    t = Twarc(Hyper.consumer_key, Hyper.consumer_secret, Hyper.access_token, Hyper.access_token_secret)
+    consumer_key = Hyper.consumer_key
+    consumer_secret = Hyper.consumer_secret
+    access_token = Hyper.access_token
+    access_token_secret = Hyper.access_token_secret
+    t = Twarc(consumer_key, consumer_secret, access_token, access_token_secret)
 
     files = []
 
