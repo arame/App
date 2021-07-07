@@ -83,6 +83,7 @@ def main():
                 # These tweets have already been hydrated. So remove them from ids_to_hydrate
                 hydrated_tweets.append(i)
                 ids_to_hydrate.remove(i["id_str"])
+    
     print("Total IDs: " + str(len(ids)) + ", IDs to hydrate: " + str(len(ids_to_hydrate)))
     print("Hydrated: " + str(len(hydrated_tweets)))
 

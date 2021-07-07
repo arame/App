@@ -100,6 +100,7 @@ class HydratedTweets:
 
         return country
 
+    # Helper method to get the string from the JSON data
     def get_string_json_data(self, json, property):
         if json[property] == None:
             return ""
@@ -115,19 +116,19 @@ class HydratedTweets:
             country = user_country """
 
         full_text = self.get_string_json_data(tweet, "full_text")
-        full_text = DataCleaner.lowercase_text(full_text)
-        full_text = DataCleaner.remove_noise(full_text)
+        full_text_edit = DataCleaner.lowercase_text(full_text)
+        full_text_edit = DataCleaner.remove_noise(full_text_edit)
         full_text_en = ""
         if language == "en":
-            full_text_en = full_text
+            full_text_en = full_text_edit
         
         # Remove tweet translations from here. The process is too unreliable and should be run seperately
         """ else:
-            full_text_en = TweetTranslator.to_english(full_text, language)
-             """
+            full_text_en = TweetTranslator.to_english(full_text, language) """
+
         retweet_count = tweet["retweet_count"]
         favorite_count = tweet["favorite_count"]
-        row = {'Id':id, 'Language': language, 'User Location': user_location, 'Country': country, 'Tweet': full_text, 'English Tweet': full_text_en, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
+        row = {'Id':id, 'Language': language, 'User Location': user_location, 'Country': country, 'Full Text': full_text, 'Tweet': full_text_edit, 'English Tweet': full_text_en, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
         self.append_dict_as_row(row)
 
     def append_dict_as_row(self, row):
