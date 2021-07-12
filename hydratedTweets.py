@@ -114,12 +114,8 @@ class HydratedTweets:
     def output_file(self, tweet):
         id = tweet["id"]
         language = self.get_string_json_data(tweet, "lang")
-        place = self.get_string_json_data(tweet, "place")
         country = self.get_country_from_place(tweet)
         user_location, _ = self.get_user_location(tweet) 
-        """ if len(country) == 0:
-            country = user_country """
-
         full_text = self.get_string_json_data(tweet, "full_text")
         full_text_edit = DataCleaner.lowercase_text(full_text)
         full_text_edit = DataCleaner.remove_noise(full_text_edit)
@@ -133,7 +129,7 @@ class HydratedTweets:
 
         retweet_count = tweet["retweet_count"]
         favorite_count = tweet["favorite_count"]
-        row = {'Id':id, 'Language': language, 'Place': place, 'User Location': user_location, 'Country': country, 'Full Text': full_text, 'Tweet': full_text_edit, 'English Tweet': full_text_en, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
+        row = {'Id':id, 'Language': language, 'Place': country, 'User Location': user_location, 'Country': country, 'Full Text': full_text, 'Tweet': full_text_edit, 'English Tweet': full_text_en, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
         self.append_dict_as_row(row)
 
     def append_dict_as_row(self, row):
