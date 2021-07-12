@@ -1,4 +1,3 @@
-import re, string
 import neattext.functions as nfx
 
 class DataCleaner:
