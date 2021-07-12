@@ -1,5 +1,4 @@
 from geopy.geocoders import Nominatim
-from tqdm import tqdm
 import csv, os, re
 from csv import writer
 from csv import DictWriter
