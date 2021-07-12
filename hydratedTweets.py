@@ -102,6 +102,10 @@ class HydratedTweets:
 
     # Helper method to get the string from the JSON data
     def get_string_json_data(self, json, property):
+        if property not in json:
+            print(f"!! object {property} not in json {json}")
+            return ""
+
         if json[property] == None:
             return ""
 
