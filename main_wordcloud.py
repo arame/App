@@ -1,9 +1,7 @@
-import numpy as np
 import pandas as pd
 import os
 from os import path
-from PIL import Image
-from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
 from config import Hyper
 import time
@@ -14,9 +12,9 @@ def main():
     # Create stopword list:
     stopwords = set(STOPWORDS)
     stopwords.update(["coronavirus", "covid", "time", "today", "know", "support", "update", "say", "take", "please", "need", "well", "think", "virus", "thank", "read", "new", "going", "read", "help", "people", "let", "will", "one", "said", "due", "see", "day", "via", "make", "call", "really", "every", "great", "still", "keep", "now", "im", "case", "patient", "everyone", "many", "corona", "says", "go", "even", "week", "dont", "outbreak", "first", "cant", "way", "good", "work", "spread", "live", "right", "come", "back", "news", "stop", "number", "want", "may", "home", "country", "hope", "got", "US", "pandemic", "crisis", "cases", "stay", "thing", "amid", "look"])
-    dirs = os.listdir(Hyper.HyrdatedTweetLangEnDir)
+    dirs = os.listdir(Hyper.HyrdatedTweetLangDir)
     for countrydir in dirs:
-        countryfile = path.join(Hyper.HyrdatedTweetLangEnDir, countrydir, Hyper.HyrdatedTweetFile)
+        countryfile = path.join(Hyper.HyrdatedTweetLangDir, countrydir, Hyper.HyrdatedTweetFile)
         file_size = os.path.getsize(countryfile)
         if file_size < 100000:
             continue

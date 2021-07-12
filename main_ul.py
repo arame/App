@@ -30,7 +30,7 @@ def output_row(ul, row):
         return  # Ignore, no country to save
 
     row["Country"] = country
-    save_dir = os.path.join(Hyper.HyrdatedTweetLangEnDir, country)
+    save_dir = os.path.join(Hyper.HyrdatedTweetLangDir, country)
     ul.save_to_country_file(save_dir, row)
 
             
