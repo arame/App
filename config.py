@@ -25,8 +25,8 @@ class Hyper:
         self.dirOutput =  f"../Summary_Details_files{Hyper.time}"
         self.IsOutputCsv = True
         #@title Enter range of dates to Hydrate { run: "auto" }
-        self.start_date = '2020-03-22' #@param {type:"date"}
-        self.end_date = '2020-03-24' #@param {type:"date"}
+        self.start_date = '2020-03-19' #@param {type:"date"}
+        self.end_date = '2020-03-21' #@param {type:"date"}
         #@title Check Keywords to Hydrate { run: "auto" }
         coronavirus = True #@param {type:"boolean"}
         virus = False #@param {type:"boolean"}

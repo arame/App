@@ -26,7 +26,10 @@ class HydratedTweets:
             
             if 'retweeted_status' in tweet:
                 continue            
-
+            
+            # Store all tweets for a language in one file
+            self.output_file(tweet)
+            
             self.change_working_directory(language)
             country = self.get_country_from_place(tweet)
             if len(country) > 0:
