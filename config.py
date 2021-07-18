@@ -4,6 +4,7 @@ class Hyper:
     UseUserLocation = False
     MustTranslate = False
     time = time.strftime('%Y_%m_%d %H_%M_%S')
+    time_part2 = "2021_07_17 15_50_29"
     version = 15
     language = "en"
     WordcloudDir = "D:/363/wordcloud"
@@ -11,6 +12,9 @@ class Hyper:
     HyrdatedTweetDirNoCountry = f"D:/363/Summary_Details_files{time}/{language}/no_country"
     HyrdatedTweetLangDir = f"D:/363/Summary_Details_files{time}/{language}"
     HyrdatedTweetDir = f"D:/363/Summary_Details_files{time}"
+    HyrdatedTweetDirNoCountry_part2 = f"../Summary_Details_files{time_part2}/{language}/no_country"
+    HyrdatedTweetLangDir_part2 = f"../Summary_Details_files{time_part2}/{language}"
+    HyrdatedTweetDir_part2 = f"../Summary_Details_files{time_part2}"
     HyrdatedTweetFile = "tweets.csv"
     no_language_cnt = 0
     tweet_saved_cnt = 0
@@ -23,6 +27,7 @@ class Hyper:
     
     def __init__(self) -> None:
         self.dirOutput =  f"../Summary_Details_files{Hyper.time}"
+        self.dirOutput_part2 = f"../Summary_Details_files{Hyper.time_part2}"
         self.IsOutputCsv = True
         #@title Enter range of dates to Hydrate { run: "auto" }
         self.start_date = '2020-03-19' #@param {type:"date"}
