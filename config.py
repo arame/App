@@ -16,6 +16,7 @@ class Hyper:
     HyrdatedTweetLangDir_part2 = f"../Summary_Details_files{time_part2}/{language}"
     HyrdatedTweetDir_part2 = f"../Summary_Details_files{time_part2}"
     HyrdatedTweetFile = "tweets.csv"
+    HyrdatedTweetLangFile = f"{language}_tweets.csv"
     no_language_cnt = 0
     tweet_saved_cnt = 0
     # Keys, access tokens and secrets taken from Twitter are stored as environment variables
@@ -30,8 +31,8 @@ class Hyper:
         self.dirOutput_part2 = f"../Summary_Details_files{Hyper.time_part2}"
         self.IsOutputCsv = True
         #@title Enter range of dates to Hydrate { run: "auto" }
-        self.start_date = '2020-03-19' #@param {type:"date"}
-        self.end_date = '2020-03-21' #@param {type:"date"}
+        self.start_date = '2020-03-16' #@param {type:"date"}
+        self.end_date = '2020-03-18' #@param {type:"date"}
         #@title Check Keywords to Hydrate { run: "auto" }
         coronavirus = True #@param {type:"boolean"}
         virus = False #@param {type:"boolean"}
