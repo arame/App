@@ -4,7 +4,7 @@ from twarc import Twarc
 import jsonlines, json, csv, sys
 from config import Hyper
 from hydratedTweets import HydratedTweets
-import time
+from helper import Helper
 
 
 def main():
@@ -16,8 +16,7 @@ def main():
         
     os.chdir(hyper.dirOutput)
     dirpath = os.getcwd()
-    start_time = time.strftime('%Y/%m/%d %H:%M:%S')
-    print(f"{start_time} Current directory is : {dirpath}")
+    Helper.printline(f" Current directory is : {dirpath}")
     consumer_key = Hyper.consumer_key
     consumer_secret = Hyper.consumer_secret
     access_token = Hyper.access_token
@@ -40,8 +39,8 @@ def main():
                 # If the date is within the required range, it is added to the
                 # list of files to read.
                 if (dt.datetime.strptime(hyper.start_date, "%Y-%m-%d").date() 
-                <= dt.datetime.strptime(date, '%Y_%m_%d').date()
-                <= dt.datetime.strptime(hyper.end_date, "%Y-%m-%d").date()):
+                    <= dt.datetime.strptime(date, '%Y_%m_%d').date()
+                    <= dt.datetime.strptime(hyper.end_date, "%Y-%m-%d").date()):
                     files.append(os.path.join(folderpath, filename))
     # The final list is read, and each of the individual IDs is stored in a collective
     # set of IDs. Duplicates are removed.
@@ -53,8 +52,7 @@ def main():
             for i in f.readline().strip('][').replace(" ", "").split(","):
                 ids.add(i) 
     # Number of tweets read.
-    _time = time.strftime('%Y/%m/%d %H:%M:%S')
-    print(f"{_time}   {round((len(ids)/1000000), 3)} million unique tweets.")
+    Helper.printline(f"   {round((len(ids)/1000000), 3)} million unique tweets.")
 
     #@title Enter ID output file {run: "auto"}
     final_tweet_ids_filename = "final_ids.txt" #@param {type: "string"}
@@ -83,8 +81,8 @@ def main():
                 hydrated_tweets.append(i)
                 ids_to_hydrate.remove(i["id_str"])
     
-    print("Total IDs: " + str(len(ids)) + ", IDs to hydrate: " + str(len(ids_to_hydrate)))
-    print("Hydrated: " + str(len(hydrated_tweets)))
+    Helper.printline(f"Total IDs: {len(ids)}, IDs to hydrate: {len(ids_to_hydrate)}")
+    Helper.printline(f"Hydrated: {len(hydrated_tweets)}")
 
     count = len(hydrated_tweets)
     start_index = count # The index from where tweets haven't been saved to the output_json_file
@@ -99,9 +97,8 @@ def main():
         if (count % num_save) == 0:
             tweets = HydratedTweets(hydrated_tweets[start_index:])
             tweets.output_to_csv()
-            _time = time.strftime('%Y/%m/%d %H:%M:%S')
-            print(f"{_time}   Processed {count} hydrated tweets.")
-            print(f"{_time}   Saved     {Hyper.tweet_saved_cnt} hydrated tweets.")
+            Helper.printline(f"   Processed {count} hydrated tweets.")
+            Helper.printline(f"   Saved     {Hyper.tweet_saved_cnt} hydrated tweets.")
             # Now, since everything has been written. Reset start_index
             start_index = count
             
@@ -111,12 +108,10 @@ def main():
         print("Here with start_index", start_index)
         tweets = HydratedTweets(hydrated_tweets[start_index:])
         tweets.output_to_csv()
-        _time = time.strftime('%Y/%m/%d %H:%M:%S')
-        print(f"{_time}   Processed {count} hydrated tweets.")
-        print(f"{_time}   Saved     {Hyper.tweet_saved_cnt} hydrated tweets.")
+        Helper.printline(f"   Processed {count} hydrated tweets.")
+        Helper.printline(f"   Saved     {Hyper.tweet_saved_cnt} hydrated tweets.")
 
-    _time = time.strftime('%Y/%m/%d %H:%M:%S')
-    print(f"{_time}   ** Completed output **")
+    Helper.printline(f"   ** Completed output **")
 
 if __name__ == "__main__":
     main()

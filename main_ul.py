@@ -3,44 +3,39 @@ import pandas as pd
 from config import Hyper
 from user_location import UserLocation
 import time
+from helper import Helper
 
 def main():
     #part1()
     part2()
 
 def part1():
-    _time = time.strftime('%Y/%m/%d %H:%M:%S')
-    print(f"{_time}     ** Started Part 1")
+    Helper.printline("     ** Started Part 1")
     file = os.path.join(Hyper.HyrdatedTweetDirNoCountry, Hyper.HyrdatedTweetFile)
     i = 0
     ul = UserLocation()
     with open(file, encoding="utf-8", newline='') as csvfile:
-        _time = time.strftime('%Y/%m/%d %H:%M:%S')
-        print(f"{_time}     {file} opened")
+        Helper.printline(f"     {file} opened")
         reader = csv.DictReader(csvfile)
         for row in reader:
             i += 1
             output_row(ul, row)
             if i % 100 == 0:
-                _time = time.strftime('%Y/%m/%d %H:%M:%S')
-                print(f"{_time}     {i} rows processed")
+                Helper.printline(f"     {i} rows processed")
 
-    _time = time.strftime('%Y/%m/%d %H:%M:%S')
-    print(f"{_time}     ** Part 1 Ended")
+    Helper.printline(f"     ** Part 1 Ended")
 
 def part2():
     # Join all the tweet files for each country into one file for the langauage
-    _time = time.strftime('%Y/%m/%d %H:%M:%S')
-    print(f"{_time}     ** Started Part 2")
+    Helper.printline("     ** Started Part 2")
     os.chdir(Hyper.HyrdatedTweetLangDir_part2)
-    print(f"Changed directory to {Hyper.HyrdatedTweetLangDir_part2}")
-    en_tweet_file = 'en_tweets.csv'
+    Helper.printline(f"Changed directory to {Hyper.HyrdatedTweetLangDir_part2}")
     list_dirs = os.listdir()
+    list_dirs.remove("no_country")
     big_df = pd.concat( [pd.read_csv(os.path.join(_dir,'tweets.csv')) for _dir in list_dirs]) 
-    big_df.to_csv(en_tweet_file)
+    big_df.to_csv(Hyper.HyrdatedTweetLangFile)
 
-    _time = time.strftime('%Y/%m/%d %H:%M:%S')
-    print(f"{_time}     ** Part 2 Ended")
+    Helper.printline(f"     ** Part 2 Ended")
 
 def output_row(ul, row):
     user_location = row["User Location"]

@@ -28,8 +28,6 @@ class HydratedTweets:
                 continue            
             
             self.change_working_directory(language)
-            # Store all tweets for a language in one file
-            self.output_file(tweet)
 
             country = self.get_country_from_place(tweet)
             if len(country) > 0:
@@ -120,8 +118,13 @@ class HydratedTweets:
         country = self.get_country_from_place(tweet)
         user_location, _ = self.get_user_location(tweet) 
         full_text = self.get_string_json_data(tweet, "full_text")
-        #full_text_edit = DataCleaner.lowercase_text(full_text)
+        # Decided not to remove casing. Capital letters in a word will increase the sentiment value
+        #full_text_edit = DataCleaner.lowercase_text(full_text)         
         full_text_edit = DataCleaner.remove_noise(full_text)
+
+        if len(full_text_edit) == 0:
+            return      # Do not output an empty tweet
+
         full_text_en = ""
         if language == "en":
             full_text_en = full_text_edit
