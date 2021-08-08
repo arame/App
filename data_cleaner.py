@@ -16,7 +16,6 @@ class DataCleaner:
         text = nfx.remove_numbers(text)
         text = nfx.remove_html_tags(text)
         text = nfx.remove_multiple_spaces(text)     # also removes newline \n
-        text = nfx.remove_punctuations(text)
         text = nfx.remove_special_characters(text)
         text = nfx.remove_non_ascii(text)
    
