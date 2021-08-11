@@ -99,7 +99,46 @@ class HydratedTweets:
         if country == None or len(country) == 0:
             return ""
 
+        country = self.check_country_name(country)
         return country
+
+    # The country names need to match the names used from the geopy.geocoders library 
+    # used for converting user locations to country names
+    def check_country_name(self, country):
+        if country.startswith("The "):
+            return country.replace("The ", "")
+
+        if country.startswith("the "):
+            return country.replace("the ", "")
+
+        if country.startswith("Republic of "):
+            return country.replace("Republic of ", "")
+
+        if country.endswith("China"):
+            return "China"
+
+        if country == "Republic of Korea":
+            return "South Korea"
+
+        if country == "Democratic Republic of Congo":
+            return "Democratic Republic of the Congo"
+
+        if country.endswith("voire"):
+            return "Ivory Coast"
+
+        if country == "Hashemite Kingdom of Jordan":
+            return "Jordan"
+
+        if country == "Islamic Republic of Iran":
+            return "Iran"
+
+        if country == "Isle of Man":
+            return "United Kingdom"
+
+        if country == "Kingdom of Saudi Arabia":
+            return "Saudi Arabia"
+
+        return country  # No change to the country name
 
     # Helper method to get the string from the JSON data
     def get_string_json_data(self, json, property):
@@ -118,8 +157,7 @@ class HydratedTweets:
         country = self.get_country_from_place(tweet)
         user_location, _ = self.get_user_location(tweet) 
         full_text = self.get_string_json_data(tweet, "full_text")
-        # Decided not to remove casing. Capital letters in a word will increase the sentiment value
-        #full_text_edit = DataCleaner.lowercase_text(full_text)         
+        full_text_edit = DataCleaner.lowercase_text(full_text)         
         full_text_edit = DataCleaner.remove_noise(full_text)
 
         if len(full_text_edit) == 0:
