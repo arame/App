@@ -111,14 +111,14 @@ class HydratedTweets:
         if country.startswith("the "):
             return country.replace("the ", "")
 
+        if country == "Republic of Korea":
+            return "South Korea"
+        
         if country.startswith("Republic of "):
             return country.replace("Republic of ", "")
 
         if country.endswith("China"):
             return "China"
-
-        if country == "Republic of Korea":
-            return "South Korea"
 
         if country == "Democratic Republic of Congo":
             return "Democratic Republic of the Congo"
@@ -132,9 +132,9 @@ class HydratedTweets:
         if country == "Islamic Republic of Iran":
             return "Iran"
 
-        if country == "Isle of Man":
+        if country == "Isle of Man" or country == "Jersey" or country == "Guernsey":
             return "United Kingdom"
-
+        
         if country == "Kingdom of Saudi Arabia":
             return "Saudi Arabia"
 
@@ -162,10 +162,6 @@ class HydratedTweets:
 
         if len(full_text_edit) == 0:
             return      # Do not output an empty tweet
-
-        full_text_en = ""
-        if language == "en":
-            full_text_en = full_text_edit
         
         # Remove tweet translations from here. The process is too unreliable and should be run seperately
         """ else:
@@ -173,7 +169,7 @@ class HydratedTweets:
 
         retweet_count = tweet["retweet_count"]
         favorite_count = tweet["favorite_count"]
-        row = {'Id':id, 'Language': language, 'Place': country, 'User Location': user_location, 'Country': country, 'Full Text': full_text, 'Tweet': full_text_edit, 'English Tweet': full_text_en, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
+        row = {'Id':id, 'Language': language, 'Place': country, 'User Location': user_location, 'Country': country, 'Full Text': full_text, 'clean_text': full_text_edit, 'Retweet Count': retweet_count, 'Favourite Count': favorite_count}
         self.append_dict_as_row(row)
 
     def append_dict_as_row(self, row):

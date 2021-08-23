@@ -1,10 +1,9 @@
-import os
+import os, re
 import time
 class Hyper:
     UseUserLocation = False
     MustTranslate = False
     time = time.strftime('%Y_%m_%d %H_%M_%S')
-    time_part2 = "2021_07_17 15_50_29"
     version = 15
     language = "en"
     WordcloudDir = "D:/363/wordcloud"
@@ -12,9 +11,6 @@ class Hyper:
     HyrdatedTweetDirNoCountry = f"D:/363/Summary_Details_files{time}/{language}/no_country"
     HyrdatedTweetLangDir = f"D:/363/Summary_Details_files{time}/{language}"
     HyrdatedTweetDir = f"D:/363/Summary_Details_files{time}"
-    HyrdatedTweetDirNoCountry_part2 = f"../Summary_Details_files{time_part2}/{language}/no_country"
-    HyrdatedTweetLangDir_part2 = f"../Summary_Details_files{time_part2}/{language}"
-    HyrdatedTweetDir_part2 = f"../Summary_Details_files{time_part2}"
     HyrdatedTweetFile = "tweets.csv"
     HyrdatedTweetLangFile = f"{language}_tweets.csv"
     no_language_cnt = 0
@@ -24,15 +20,18 @@ class Hyper:
     consumer_secret = os.environ['CONSUMER_SECRET'] 
     access_token = os.environ['ACCESS_TOKEN']
     access_token_secret = os.environ['ACCESS_TOKEN_SECRET']
-    field_names = ['Id', 'Language', 'Place', 'User Location', 'Country', 'Full Text', 'Tweet', 'English Tweet', 'Retweet Count', 'Favourite Count']
+    field_names = ['Id', 'Language', 'Place', 'User Location', 'Country', 'Full Text', 'clean_text', 'Retweet Count', 'Favourite Count']
+    no_retweets = True                 #@param {type:"boolean"}
+    covid_2021_loc = "../COVID19_2021_Tweets_Dataset"
     
     def __init__(self) -> None:
         self.dirOutput =  f"../Summary_Details_files{Hyper.time}"
-        self.dirOutput_part2 = f"../Summary_Details_files{Hyper.time_part2}"
         self.IsOutputCsv = True
+        # self.start_date = '2020-03-16' #@param {type:"date"}
+        # self.end_date = '2020-03-18' #@param {type:"date"} 
         #@title Enter range of dates to Hydrate { run: "auto" }
-        self.start_date = '2020-03-16' #@param {type:"date"}
-        self.end_date = '2020-03-18' #@param {type:"date"}
+        self.start_date = '2021-01-04' #@param {type:"date"}
+        self.end_date = '2021-01-10' #@param {type:"date"}
         #@title Check Keywords to Hydrate { run: "auto" }
         coronavirus = True #@param {type:"boolean"}
         virus = False #@param {type:"boolean"}
@@ -41,4 +40,8 @@ class Hyper:
         ncov2019 = True #@param {type:"boolean"}
         self.keyword_dict = {"coronavirus": coronavirus, "virus": virus, "covid": covid, "ncov19": ncov19, "ncov2019": ncov2019}
         self.covid_loc = "../COVID19_Tweets_Dataset"
+        
  
+class Constants:
+    USER_HANDLES_REGEX = re.compile(r"@\S+")
+    NEW_LINE_REGEX = re.compile(r'\s+|\\n')

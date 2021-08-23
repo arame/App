@@ -1,23 +1,20 @@
 import neattext.functions as nfx
+import re
+from config import Constants
 
 class DataCleaner:
-    # Data cleaning methods taken from https://www.kaggle.com/friskycodeur/nlp-with-disaster-tweets-bert-explained
+    # Data cleaning methods taken from "Emotion and sentiment analysis of tweets using BERT", Andrea Chiorrini et al
     def lowercase_text(text):
         # The token id for a word should be the same whether it is capitalised or not
         # To ensure this happens, make the word lowercase
         return text.lower()
 
     def remove_noise(text):
-        #print(f"Before clean: {text}")
-        text = nfx.remove_userhandles(text)
-        text = nfx.remove_currencies(text)
-        text = nfx.remove_urls(text)
-        text = nfx.remove_dates(text)
-        text = nfx.remove_numbers(text)
         text = nfx.remove_html_tags(text)
-        text = nfx.remove_multiple_spaces(text)     # also removes newline \n
-        text = nfx.remove_special_characters(text)
+        # Replace a user handle with a <USER> token, see
+        text = re.sub(Constants.USER_HANDLES_REGEX, "<USER>", text)  
+        text = nfx.remove_urls(text)
+        text = re.sub(Constants.NEW_LINE_REGEX, " ", text)     # remove /n
+        text = nfx.remove_multiple_spaces(text)
         text = nfx.remove_non_ascii(text)
-  
-        #print(f"After clean: {text}")
         return text

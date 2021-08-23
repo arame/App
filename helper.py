@@ -1,6 +1,17 @@
-import time
+import time, datetime
+from os import listdir
 
 class Helper:
     def printline(text):
         _date_time = time.strftime('%Y/%m/%d %H:%M:%S')
         print(f"{_date_time}   {text}")
+        
+    def string_to_date(_date):
+        _date = _date.replace("_", "-")
+        format = "%Y-%m-%d"
+        date = datetime.datetime.strptime(_date, format)
+        return date
+    
+    def find_csv_filenames( path_to_dir, suffix=".csv" ):
+        filenames = listdir(path_to_dir)
+        return [ filename for filename in filenames if filename.endswith( suffix ) ]
