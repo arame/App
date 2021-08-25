@@ -31,6 +31,7 @@ def main():
     if year == 2021:
         ids = get_2021_tweet_ids(hyper)
         
+    os.chdir(hyper.dirOutput)
     # Number of tweets read.
     Helper.printline(f"   {round((len(ids)/1000000), 3)} million unique tweets.")
 
@@ -132,12 +133,15 @@ def get_2021_tweet_ids(hyper):
         csv_input = pd.read_csv(filename, sep=',', error_bad_lines=False, index_col=False, dtype='unicode')
         for _, row in csv_input.iterrows():
             if row["Language"] != Hyper.language:
-                continue
+                continue    # Ignore tweets not in the language
             if Hyper.no_retweets and row["RT"] == "YES":
-                continue
+                continue    # Ignore retweets if no_retweets flag is set to true
             id = int(row["Tweet_ID"])
             ids.add(id)
-            
+            if len(ids) % 100000 == 0:
+                Helper.printline(f"filename: {filename}, {len(ids)} tweet ids saved")
+    
+    Helper.printline(f"A total of {len(ids)} tweet ids were found")        
     return ids
 
 def get_files_between_dates(hyper):

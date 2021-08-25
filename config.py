@@ -31,7 +31,7 @@ class Hyper:
         # self.end_date = '2020-03-18' #@param {type:"date"} 
         #@title Enter range of dates to Hydrate { run: "auto" }
         self.start_date = '2021-01-04' #@param {type:"date"}
-        self.end_date = '2021-01-10' #@param {type:"date"}
+        self.end_date = '2021-01-4' #@param {type:"date"}
         #@title Check Keywords to Hydrate { run: "auto" }
         coronavirus = True #@param {type:"boolean"}
         virus = False #@param {type:"boolean"}
