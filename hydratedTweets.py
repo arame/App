@@ -40,6 +40,10 @@ class HydratedTweets:
 
             # This code slows the execution of this data load
             # Instead of running this code here, use a seperate process
+            #################################################################
+            # ## The Hyper.UseUserLocation is set to False
+            # ## so that this code is not run.
+            #################################################################
             if Hyper.UseUserLocation:
                 _, country = self.get_user_location(tweet)
                 if country == None:
@@ -84,9 +88,11 @@ class HydratedTweets:
 
         user_location = DataCleaner.remove_noise(user_location)
         country = ""
-        if Hyper.UseUserLocation:
+        # This flag is set to false because the code beneath is too time consuming
+        # Instead the code is run in the Location app
+        ''' if Hyper.UseUserLocation:
             ul = UserLocation()
-            country = ul.locator(user_location)
+            country = ul.locator(user_location) '''
 
         return user_location, country
 
@@ -106,16 +112,22 @@ class HydratedTweets:
     # used for converting user locations to country names
     def check_country_name(self, country):
         if country.startswith("The "):
-            return country.replace("The ", "")
+            country = country.replace("The ", "")
+            return country
 
         if country.startswith("the "):
-            return country.replace("the ", "")
+            country = country.replace("the ", "")
+            return country
 
+        if country == "the Philippines":
+            return "Philippines"
+        
         if country == "Republic of Korea":
             return "South Korea"
         
         if country.startswith("Republic of "):
-            return country.replace("Republic of ", "")
+            country = country.replace("Republic of ", "")
+            return country
 
         if country.endswith("China"):
             return "China"

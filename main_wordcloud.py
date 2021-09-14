@@ -5,7 +5,6 @@ from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
 from config import Hyper
 from helper import Helper
-import time
 
 # See https://www.datacamp.com/community/tutorials/wordcloud-python
 def main():
