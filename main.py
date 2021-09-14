@@ -1,8 +1,7 @@
 import datetime as dt
-import os
 import pandas as pd
 from twarc import Twarc
-import jsonlines, json, csv, sys
+import jsonlines, os, sys
 from config import Hyper
 from hydratedTweets import HydratedTweets
 from helper import Helper
